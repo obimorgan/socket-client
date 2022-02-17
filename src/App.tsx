@@ -11,6 +11,9 @@ import {
 } from "react-bootstrap";
 import { io } from "socket.io-client";
 import "bootstrap/dist/css/bootstrap.min.css";
+import IMessage from "./types/message";
+import IUser from "./types/user";
+import { FormEvent } from "react";
 
 const ADDRESS = "http://localhost:3002";
 const socket = io(ADDRESS, { transports: ["websocket"] });
@@ -19,8 +22,8 @@ function Home() {
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [onlineUsers, setOnlineUsers] = useState([]);
-  const [chatHistory, setChatHistory] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState<IUser[]>([]);
+  const [chatHistory, setChatHistory] = useState<IMessage[]>([]);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -49,7 +52,7 @@ function Home() {
     });
   }, []);
 
-  const submitUsername = (e) => {
+  const submitUsername = (e: FormEvent) => {
     e.preventDefault();
 
     socket.emit("setUsername", { username: username });
@@ -71,7 +74,7 @@ function Home() {
     }
   };
 
-  const handleSubmitMessage = (e) => {
+  const handleSubmitMessage = (e: FormEvent) => {
     e.preventDefault();
 
     const newMessage = {
@@ -116,7 +119,7 @@ function Home() {
               </ListGroup.Item>
             ))}
           </ListGroup>
-          {/* {loggedIn ? ( */}
+          {loggedIn ? (
           <Form onSubmit={handleSubmitMessage}>
             <FormControl
               placeholder="What's your message?"
@@ -125,9 +128,9 @@ function Home() {
               disabled={!loggedIn}
             />
           </Form>
-          {/* ) : (
+          ) : (
             ""
-          )} */}
+          )}
         </Col>
         <Col md={2}>
           <div className="mb-3">Connected users:</div>
