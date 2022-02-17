@@ -119,7 +119,7 @@ function Home() {
               </ListGroup.Item>
             ))}
           </ListGroup>
-          {/* {loggedIn ? ( */}
+          {loggedIn ? (
           <Form onSubmit={handleSubmitMessage}>
             <FormControl
               placeholder="What's your message?"
@@ -128,9 +128,9 @@ function Home() {
               disabled={!loggedIn}
             />
           </Form>
-          {/* ) : (
+          ) : (
             ""
-          )} */}
+          )}
         </Col>
         <Col md={2}>
           <div className="mb-3">Connected users:</div>
